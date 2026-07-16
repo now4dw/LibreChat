@@ -12,7 +12,10 @@ endpoints:
       titleModel: "meta-llama/llama-3-8b-instruct"
       dropParams: ["stop"]
       modelDisplayLabel: "OpenRouter"
-endpoints:
   agents:
     capabilities:
       - 'skills'  # Add this to enable skills
+      - "execute_code"
+      - "file_search"
+      - "actions"
+      - "tools"
