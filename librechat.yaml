@@ -2,6 +2,12 @@ version: 1.3.5
 cache: true
 
 endpoints:
+  agents:
+    capabilities:
+      - "execute_code"
+      - "file_search"
+      - "actions"
+      - "tools"
   custom:
     - name: "OpenRouter"
       apiKey: "${OPENROUTER_KEY}"
@@ -31,11 +37,3 @@ endpoints:
       titleConvo: true
       titleModel: "deepseek-v4-pro-260425"
       modelDisplayLabel: "BytePlus"
-
-agents:
-  capabilities:
-    - skills
-    - execute_code
-    - file_search
-    - actions
-    - tools
