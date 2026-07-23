@@ -21,16 +21,21 @@ endpoints:
       baseURL: "https://ark.ap-southeast.bytepluses.com/api/v3"
       models:
         default:
-          - "dola-seedream-5-0-pro-260628"
+          - "deepseek-v4-pro-260425"
+          - "deepseek-v4-flash-260425"
+          - "deepseek-v3-2-251201"
+          - "deepseek-r1-250528"
+          - "kimi-k2-thinking-251104"
+          - "glm-4-7-251222"
         fetch: true
       titleConvo: true
-      titleModel: "dola-seedream-5-0-pro-260628"
+      titleModel: "deepseek-v4-pro-260425"
       modelDisplayLabel: "BytePlus"
 
-  agents:
-    capabilities:
-      - skills
-      - execute_code
-      - file_search
-      - actions
-      - tools
+agents:
+  capabilities:
+    - skills
+    - execute_code
+    - file_search
+    - actions
+    - tools
