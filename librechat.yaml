@@ -20,14 +20,17 @@ endpoints:
       apiKey: "${BYTEPLUS_KEY}"
       baseURL: "https://ark.ap-southeast.bytepluses.com/api/v3"
       models:
+        default:
+          - "dola-seedream-5-0-pro-260628"
         fetch: true
       titleConvo: true
+      titleModel: "dola-seedream-5-0-pro-260628"
       modelDisplayLabel: "BytePlus"
 
   agents:
     capabilities:
-      - "skills"
-      - "execute_code"
-      - "file_search"
-      - "actions"
-      - "tools"
+      - skills
+      - execute_code
+      - file_search
+      - actions
+      - tools
