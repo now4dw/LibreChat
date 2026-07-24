@@ -34,13 +34,23 @@
     "name": "OpenAI Image Tools",
     "pluginKey": "image_gen_oai",
     "toolkit": true,
-    "description": "Image Generation and Editing using OpenAI's latest state-of-the-art models",
+    "description": "Image Generation and Editing via any OpenAI-image-shape endpoint. Point at OpenAI, or through a translation proxy at BytePlus Seedream / fal.ai / etc. Model and Base URL are configurable per-agent (fork patch).",
     "icon": "assets/image_gen_oai.png",
     "authConfig": [
       {
         "authField": "IMAGE_GEN_OAI_API_KEY",
-        "label": "OpenAI Image Tools API Key",
-        "description": "Your OpenAI API Key for Image Generation and Editing"
+        "label": "API Key",
+        "description": "API key for the image endpoint. If using a translation proxy that authorizes with its own upstream key, pass any non-empty placeholder value."
+      },
+      {
+        "authField": "IMAGE_GEN_OAI_MODEL",
+        "label": "Model (per-agent override)",
+        "description": "Image model ID sent in the request. Overrides the IMAGE_GEN_OAI_MODEL env var for this agent only. Examples: gpt-image-1 (OpenAI direct); dola-seedream-5-0-pro-260628 (BytePlus Seedream 5 Pro); bytedance/seedream/v5/pro/text-to-image (fal.ai Seedream 5 Pro); fal-ai/bytedance/seedream/v5/lite/text-to-image (fal.ai Seedream 5 Lite); fal-ai/flux-pro/v1.1-ultra (fal.ai Flux Pro Ultra); fal-ai/recraft-v3 (fal.ai Recraft v3)."
+      },
+      {
+        "authField": "IMAGE_GEN_OAI_BASEURL",
+        "label": "Base URL (per-agent override)",
+        "description": "Overrides the IMAGE_GEN_OAI_BASEURL env var for this agent only. Include the /v1 suffix. Example: https://bytepass-proxy-production.up.railway.app/v1"
       }
     ]
   },
