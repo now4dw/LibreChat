@@ -188,47 +188,6 @@ const loadTools = async ({
     tavily_search_results_json: TavilySearchResults,
   };
 
-  // Fork patch: helper that builds an image_gen_oai constructor with a
-  // hard-coded model preset. Used to register one tool entry per image model
-  // (Seedream Pro, Flux Ultra, Recraft, etc.) so agents can pick a model by
-  // attaching a distinct tool rather than needing per-agent tool config UI.
-  const makeImagePresetConstructor = (modelId) =>
-    async (_toolContextMap, dynamicToolContextMap) => {
-      const authFields = getAuthFields('image_gen_oai');
-      const authValues = await loadAuthValues({ userId: user, authFields });
-      const imageFiles = options.tool_resources?.[EToolResources.image_edit]?.files ?? [];
-      const toolContext = buildImageToolContext({
-        imageFiles,
-        toolName: `${EToolResources.image_edit}_oai`,
-        contextDescription: 'image editing',
-      });
-      if (toolContext) {
-        dynamicToolContextMap.image_edit_oai = toolContext;
-      }
-      return createOpenAIImageTools({
-        ...authValues,
-        IMAGE_GEN_OAI_MODEL: modelId,
-        isAgent: !!agent,
-        req: options.req,
-        imageOutputType,
-        fileStrategy,
-        imageFiles,
-      });
-    };
-
-  const IMAGE_MODEL_PRESETS = {
-    image_gen_seedream_5_pro: 'bytedance/seedream/v5/pro/text-to-image',
-    image_gen_seedream_5_pro_edit: 'bytedance/seedream/v5/pro/edit',
-    image_gen_seedream_5_lite: 'fal-ai/bytedance/seedream/v5/lite/text-to-image',
-    image_gen_seedream_v4: 'fal-ai/bytedance/seedream/v4/text-to-image',
-    image_gen_seedream_v4_edit: 'fal-ai/bytedance/seedream/v4/edit',
-    image_gen_flux_pro_ultra: 'fal-ai/flux-pro/v1.1-ultra',
-    image_gen_flux_dev: 'fal-ai/flux/dev',
-    image_gen_recraft_v3: 'fal-ai/recraft-v3',
-    image_gen_byteplus_seedream_pro: 'dola-seedream-5-0-pro-260628',
-    image_gen_byteplus_seedream_lite: 'dola-seedream-5-0-lite-260628',
-  };
-
   const customConstructors = {
     image_gen_oai: async (_toolContextMap, dynamicToolContextMap) => {
       const authFields = getAuthFields('image_gen_oai');
@@ -273,12 +232,6 @@ const loadTools = async ({
       });
     },
   };
-
-  // Fork patch: register one custom constructor per image model preset.
-  // Each pluginKey shows as a distinct entry in the agent editor's Add Tools list.
-  for (const [pluginKey, modelId] of Object.entries(IMAGE_MODEL_PRESETS)) {
-    customConstructors[pluginKey] = makeImagePresetConstructor(modelId);
-  }
 
   const requestedTools = {};
   const hasMCPTools = tools.some((toolName) => toolName && mcpToolPattern.test(toolName));
