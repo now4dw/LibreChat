@@ -34,23 +34,153 @@
     "name": "OpenAI Image Tools",
     "pluginKey": "image_gen_oai",
     "toolkit": true,
-    "description": "Image Generation and Editing via any OpenAI-image-shape endpoint. Point at OpenAI, or through a translation proxy at BytePlus Seedream / fal.ai / etc. Model and Base URL are configurable per-agent (fork patch).",
+    "description": "Generic image gen/edit endpoint (OpenAI-compatible). Model is set by IMAGE_GEN_OAI_MODEL env var. For per-agent model selection, use one of the model-specific entries below (Seedream 5 Pro, Flux Pro Ultra, etc.) instead of this one.",
     "icon": "assets/image_gen_oai.png",
     "authConfig": [
       {
         "authField": "IMAGE_GEN_OAI_API_KEY",
-        "label": "API Key",
-        "description": "API key for the image endpoint. If using a translation proxy that authorizes with its own upstream key, pass any non-empty placeholder value."
-      },
+        "label": "OpenAI Image Tools API Key",
+        "description": "API key for the image endpoint (env-satisfied when IMAGE_GEN_OAI_API_KEY is set)."
+      }
+    ]
+  },
+  {
+    "name": "Seedream 5 Pro (fal.ai)",
+    "pluginKey": "image_gen_seedream_5_pro",
+    "toolkit": true,
+    "description": "Bytedance Seedream 5.0 Pro via fal.ai — flagship text-to-image, up to 2K, native text in 14 languages. Fork-patched preset: pins model to bytedance/seedream/v5/pro/text-to-image via the gateway.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
       {
-        "authField": "IMAGE_GEN_OAI_MODEL",
-        "label": "Model (per-agent override)",
-        "description": "Image model ID sent in the request. Overrides the IMAGE_GEN_OAI_MODEL env var for this agent only. Examples: gpt-image-1 (OpenAI direct); dola-seedream-5-0-pro-260628 (BytePlus Seedream 5 Pro); bytedance/seedream/v5/pro/text-to-image (fal.ai Seedream 5 Pro); fal-ai/bytedance/seedream/v5/lite/text-to-image (fal.ai Seedream 5 Lite); fal-ai/flux-pro/v1.1-ultra (fal.ai Flux Pro Ultra); fal-ai/recraft-v3 (fal.ai Recraft v3)."
-      },
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "API key for the translation gateway. Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "Seedream 5 Pro Edit (fal.ai)",
+    "pluginKey": "image_gen_seedream_5_pro_edit",
+    "toolkit": true,
+    "description": "Bytedance Seedream 5.0 Pro editing variant via fal.ai (bytedance/seedream/v5/pro/edit). Fork-patched preset.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
       {
-        "authField": "IMAGE_GEN_OAI_BASEURL",
-        "label": "Base URL (per-agent override)",
-        "description": "Overrides the IMAGE_GEN_OAI_BASEURL env var for this agent only. Include the /v1 suffix. Example: https://bytepass-proxy-production.up.railway.app/v1"
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "Seedream 5 Lite (fal.ai)",
+    "pluginKey": "image_gen_seedream_5_lite",
+    "toolkit": true,
+    "description": "Bytedance Seedream 5.0 Lite via fal.ai — faster/cheaper alternative to Pro. Pinned to fal-ai/bytedance/seedream/v5/lite/text-to-image.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
+      {
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "Seedream v4 (fal.ai)",
+    "pluginKey": "image_gen_seedream_v4",
+    "toolkit": true,
+    "description": "Bytedance Seedream v4 via fal.ai. Pinned to fal-ai/bytedance/seedream/v4/text-to-image.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
+      {
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "Seedream v4 Edit (fal.ai)",
+    "pluginKey": "image_gen_seedream_v4_edit",
+    "toolkit": true,
+    "description": "Bytedance Seedream v4 editing variant via fal.ai. Pinned to fal-ai/bytedance/seedream/v4/edit.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
+      {
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "Flux Pro Ultra (fal.ai)",
+    "pluginKey": "image_gen_flux_pro_ultra",
+    "toolkit": true,
+    "description": "Black Forest Labs Flux Pro v1.1 Ultra via fal.ai. Pinned to fal-ai/flux-pro/v1.1-ultra.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
+      {
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "Flux Dev (fal.ai)",
+    "pluginKey": "image_gen_flux_dev",
+    "toolkit": true,
+    "description": "Black Forest Labs Flux Dev via fal.ai — cheaper Flux tier for iteration. Pinned to fal-ai/flux/dev.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
+      {
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "Recraft v3 (fal.ai)",
+    "pluginKey": "image_gen_recraft_v3",
+    "toolkit": true,
+    "description": "Recraft v3 via fal.ai — vector/design-oriented image generation. Pinned to fal-ai/recraft-v3.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
+      {
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "BytePlus Seedream Pro (direct)",
+    "pluginKey": "image_gen_byteplus_seedream_pro",
+    "toolkit": true,
+    "description": "Seedream 5.0 Pro via BytePlus ModelArk directly (no fal.ai markup). Pinned to dola-seedream-5-0-pro-260628.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
+      {
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
+      }
+    ]
+  },
+  {
+    "name": "BytePlus Seedream Lite (direct)",
+    "pluginKey": "image_gen_byteplus_seedream_lite",
+    "toolkit": true,
+    "description": "Seedream 5.0 Lite via BytePlus ModelArk directly. Pinned to dola-seedream-5-0-lite-260628.",
+    "icon": "assets/image_gen_oai.png",
+    "authConfig": [
+      {
+        "authField": "IMAGE_GEN_OAI_API_KEY",
+        "label": "Gateway API Key",
+        "description": "Env-satisfied when IMAGE_GEN_OAI_API_KEY is set."
       }
     ]
   },
