@@ -50,6 +50,8 @@ function createAbortHandler() {
  * @param {ServerRequest} fields.req - Whether the tool is being used in an agent context
  * @param {boolean} fields.isAgent - Whether the tool is being used in an agent context
  * @param {string} fields.IMAGE_GEN_OAI_API_KEY - The OpenAI API key
+ * @param {string} [fields.IMAGE_GEN_OAI_MODEL] - Per-agent model override (fork patch)
+ * @param {string} [fields.IMAGE_GEN_OAI_BASEURL] - Per-agent base URL override (fork patch)
  * @param {boolean} [fields.override] - Whether to override the API key check, necessary for app initialization
  * @param {MongoFile[]} [fields.imageFiles] - The images to be used for editing
  * @param {string} [fields.imageOutputType] - The image output type configuration
@@ -78,11 +80,16 @@ function createOpenAIImageTools(fields = {}) {
   let apiKey = fields.IMAGE_GEN_OAI_API_KEY ?? getApiKey();
   const closureConfig = { apiKey };
 
-  const imageModel = process.env.IMAGE_GEN_OAI_MODEL || 'gpt-image-1';
+  // Per-agent override for model: field > env > default. Lets each agent
+  // target a different image model (e.g. bytedance/seedream/v5/pro/text-to-image
+  // vs fal-ai/flux-pro/v1.1-ultra) through a single translation proxy.
+  const imageModel =
+    fields.IMAGE_GEN_OAI_MODEL || process.env.IMAGE_GEN_OAI_MODEL || 'gpt-image-1';
 
   let baseURL = 'https://api.openai.com/v1/';
-  if (!override && process.env.IMAGE_GEN_OAI_BASEURL) {
-    baseURL = extractBaseURL(process.env.IMAGE_GEN_OAI_BASEURL);
+  const baseURLOverride = fields.IMAGE_GEN_OAI_BASEURL || process.env.IMAGE_GEN_OAI_BASEURL;
+  if (!override && baseURLOverride) {
+    baseURL = extractBaseURL(baseURLOverride);
     closureConfig.baseURL = baseURL;
   }
 
